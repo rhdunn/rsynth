@@ -18,7 +18,6 @@ Rsynth/Makefile.PL	Perl API build
 Rsynth/t/phones.t	Test data
 Rsynth/typemap		Perl/C type conversion
 Sampa.pm		Perl code to read sampa.htm
-acconfig.h		configure support
 aufile.c		Sun .au file writer
 aufile.h		Sun .au file writer
 charset.c		Locale and charcter set choices
@@ -58,6 +57,7 @@ english.c		Letter to Sound rules
 english.h	
 euler.pho		MBrola style pho file ( say -f euler.pho )
 euler.txt		Plain text of above ( say < euler.txt )
+festival/.festivalrc	Copy to ~/.festivalrc to enable rsynth as a voice for festival
 festival/lib/rsynth.scm	Festival Hackery
 festival/lib/voices/english/rsynth_br_f/festvox/rsynth_br_f.scm	
 festival/lib/voices/english/rsynth_br_f/mrpa-sampa	

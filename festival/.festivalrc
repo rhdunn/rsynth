@@ -1,0 +1,2 @@
+(voice_rsynth_br_m)
+(set! voice_default 'voice_rsynth_br_m)
