@@ -69,11 +69,11 @@ distclean :: clean
 hplay.o : hplay.c getargs.h hplay.h
 
 aDict.db : $(ADICT) mkdictdb
-	mkdictdb $(ADICT) aDict.db
+	LANG=en_US mkdictdb $(ADICT) aDict.db
 	touch $@
 
 bDict.db : $(BDICT) mkdictdb
-	mkdictdb $(BDICT) bDict.db
+	LANG=en_GB mkdictdb $(BDICT) bDict.db
 	touch $@
 
 install  : $(PROGS) $(DICTS) $(EXTRA_INST)
