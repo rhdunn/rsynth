@@ -35,6 +35,8 @@
 #include <sys/signal.h>
 #include <unistd.h>
 
+// #define ALSA_PCM_OLD_HW_PARAMS_API
+
 #include <alsa/asoundlib.h>
 #include "l2u.h"
 
@@ -53,7 +55,7 @@ static int linear_fd = -1;
 char *prog = "hplay";
 static snd_pcm_t *pcm;
 static snd_pcm_hw_params_t *hwparams;
-static size_t chunk;
+static snd_pcm_uframes_t chunk;
 
 static int
 audio_open(void)
@@ -66,7 +68,8 @@ audio_open(void)
   }
  else
   {
-   long want = samp_rate;
+   unsigned int want = samp_rate;
+   int dir = 0;
    snd_pcm_hw_params_malloc(&hwparams);
    snd_pcm_hw_params_any(pcm,hwparams);
    /* Check capabilities */
@@ -81,10 +84,15 @@ audio_open(void)
      fprintf(stderr,"Error setting format %s:%s",pcm_name,snd_strerror(err));
      return(0);
     }
-   samp_rate = snd_pcm_hw_params_set_rate_near(pcm, hwparams, want, &err);
-   if (err || samp_rate != want)
+#ifdef ALSA_PCM_OLD_HW_PARAMS_API
+   want = snd_pcm_hw_params_set_rate_near(pcm, hwparams, want, &dir);
+#else
+   err = snd_pcm_hw_params_set_rate_near(pcm, hwparams, &want, &dir);
+#endif
+   if (dir != 0 || want != samp_rate)
     {
-     fprintf(stderr,"Wanted %ldHz, got %ldHz",want,samp_rate);
+     fprintf(stderr,"Wanted %ldHz, got %uHz (%d)",samp_rate,want,dir);
+     samp_rate = want;
     }
    if ((err=snd_pcm_hw_params_set_channels(pcm, hwparams, 1)) < 0)
     {
@@ -98,7 +106,11 @@ audio_open(void)
      fprintf(stderr,"Error setting parameters %s:%s",pcm_name,snd_strerror(err));
      return(0);
     }
+#ifdef ALSA_PCM_OLD_HW_PARAMS_API
    chunk = snd_pcm_hw_params_get_buffer_size (hwparams);
+#else
+   snd_pcm_hw_params_get_buffer_size (hwparams,&chunk);
+#endif
    return 1;
   }
 }
