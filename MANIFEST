@@ -15,7 +15,9 @@ Rsynth/Audio.pm		Perl API to this
 Rsynth/Audio.xs		Perl C bindings
 Rsynth/Elements.pm	Perl access to Elements
 Rsynth/Makefile.PL	Perl API build
+Rsynth/t/elem.t		Test low level Perl API
 Rsynth/t/phones.t	Test data
+Rsynth/phtoelm.def	Phone to element data
 Rsynth/typemap		Perl/C type conversion
 Sampa.pm		Perl code to read sampa.htm
 aufile.c		Sun .au file writer
@@ -53,6 +55,7 @@ dict.h
 dlookup.c		Dictionary lookup command line application
 efix	
 elements.c		Element code
+elmdgm			Vowel parameter display/edit tool
 english.c		Letter to Sound rules
 english.h	
 euler.pho		MBrola style pho file ( say -f euler.pho )
@@ -64,6 +67,7 @@ festival/lib/voices/english/rsynth_br_f/mrpa-sampa
 festival/lib/voices/english/rsynth_br_m/festvox/rsynth_br_m.scm	
 festival/lib/voices/english/rsynth_br_m/mrpa-sampa	
 fmtelem			Re-format Elements.def
+fmtfeat			Re-format phfeat.h
 fsay			Use via festival
 getarg.c		Command line parser
 getargs.h	
@@ -89,7 +93,6 @@ phones.def		Guts of phoneme table
 phones.h	
 phrases.txt		Test data
 phtoelm.c		Phoneme to element layer
-phtoelm.def	
 phtoelm.h	
 plotparm.h	
 prune_elm		Perl script that for Elements.def

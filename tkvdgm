@@ -129,18 +129,20 @@ foreach my $e (values %elem)
  {
   if ($e->{features}{vwl})
    {
-    $vowels{'rsynth'}{$e->{sampa}} = [$e->{f1}[0],$e->{f2}[0]];
-   } 
+    my $ch = $e->{unicode};
+    utf8::decode($ch);
+    $vowels{'rsynth'}{$ch} = [$e->{f1}[0],$e->{f2}[0]];
+   }
   else
    {
     warn "Skip ".$e->{sampa}.' '.join('|',keys %{$e->{features}})."\n";
-   }  
+   }
  }
 
 my $mw = MainWindow->new;
 $mw->menu;
 
-my $IPA = $mw->Font(family => 'ipa_samm uclphon1 silmanuscript',
+my $IPA = $mw->Font(family => 'Gentium',
                     point => 140, slant => 'r',
                     weight => 'medium');
 

@@ -42,14 +42,66 @@ int main(int argc,char *argv[])
  darray_t phone;
  darray_init(&phone, sizeof(char), 128);
  init_locale();
- rule_debug = 1;
- while (--argc)
+ if (argc > 1)
   {
-   char *s = *++argv;
-   NRL(s,strlen(s),&phone);
-   darray_append(&phone,0);
-   printf("%s [%s]\n",s,(char *) darray_find(&phone,0));
-   phone.items = 0;
+   rule_debug = 1;
+   while (--argc)
+    {
+     char *s = *++argv;
+     NRL(s,strlen(s),&phone);
+     darray_append(&phone,0);
+     printf("%s [%s]\n",s,(char *) darray_find(&phone,0));
+     phone.items = 0;
+    }
+  }
+ else
+  {
+   char buf[1024];
+   unsigned char *s;
+   unsigned total = 0;
+   unsigned right = 0;
+   while ((s = (unsigned char *) fgets(buf,sizeof(buf),stdin)))
+    {
+     while (*s && isspace(*s)) s++;
+     if (*s)
+      {
+       unsigned char *e = s;
+       unsigned char *p;
+       while (*e && !isspace(*e)) e++;
+       NRL(s,(e-s),&phone);
+       darray_append(&phone,0);
+       p = e;
+       while (*p && isspace(*p)) p++;
+       if (*p)
+        {
+         char *q = p;
+         total++;
+         while (*q && !isspace(*q)) q++;
+         *q++ = ' ';
+         *q  = '\0';
+         if (strcmp(p,darray_find(&phone,0)) != 0)
+          {
+           printf("%.*s",(e-s),s);
+           printf(" expected /%s/, got /%s/\n",p,(char *) darray_find(&phone,0));
+          }
+         else
+          {
+           right++;
+          }
+        }
+       else
+        {
+         printf("%.*s",(e-s),s);
+         printf(" got /%s/\n",(char *) darray_find(&phone,0));
+         fflush(stdout);
+        }
+       phone.items = 0;
+      }
+    }
+   if (total)
+    {
+     fprintf(stderr,"%.3g%% correct\n",right*100.0/total);
+    }
   }
  return 0;
 }

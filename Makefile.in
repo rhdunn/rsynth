@@ -99,6 +99,9 @@ install_perl :
 	
 install_festival : 	
 
+phtoelm.def : Rsynth/phtoelm.def
+	$(INSTALL_DATA) $< $@
+
 @make_dist@
 
 #MM Fri Jan  2 11:28:16 2004

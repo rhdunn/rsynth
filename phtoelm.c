@@ -19,9 +19,9 @@
 */
 #include "config.h"
 
-/* $Id: //depot/rsynth/phtoelm.c#31 $
+/* $Id: //depot/rsynth/phtoelm.c#33 $
  */
-char *phtoelm_id = "$Id: //depot/rsynth/phtoelm.c#31 $";
+char *phtoelm_id = "$Id: //depot/rsynth/phtoelm.c#33 $";
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -80,7 +80,7 @@ enter(char *p, ...)
 static void
 enter_phonemes(void)
 {
-#include "phtoelm.def"
+#include "Rsynth/phtoelm.def"
 }
 
 trie_ptr
