@@ -1,0 +1,14 @@
+TYPEMAP 
+rsynth_t *  	T_RSYNTH
+
+INPUT
+T_RSYNTH
+	if (sv_isobject($arg)) {
+	    $var = ($type) SvIV((SV*)SvRV($arg));
+	}
+	else
+	    croak(\"$var is not an object\")
+
+OUTPUT
+T_RSYNTH	
+    sv_setref_iv($arg, (Class) ? Class : \"${Package}\", (IV) $var);
