@@ -3,7 +3,7 @@ define([AC_CACHE_SAVE], )dnl
 
 dnl Process this file with autoconf to produce a configure script.
 AC_REVISION($Revision: 1.4 $)
-AC_PREREQ(2.52)
+AC_PREREQ(2.59)
 AC_INIT
 AC_CONFIG_SRCDIR([say.c])
 AC_CANONICAL_HOST
@@ -61,24 +61,60 @@ if test "$hplay" = linux; then
 fi
 
 if test "$hplay" = alsa; then
+
+AC_MSG_CHECKING(Checking for new ALSA API)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <alsa/asoundlib.h>
+]], [[
+static snd_pcm_hw_params_t *hwparams;
+static snd_pcm_uframes_t chunk;
+snd_pcm_hw_params_get_buffer_size (hwparams,&chunk);
+]])],[
+new_alsa=yes
+AC_MSG_RESULT(yes),
+AC_DEFINE(RSYNTH_ALSA_PCM_POINTER_PARAMS_API,1,[New ALSA API passes pointers to parms])
+],[
+new_alsa=no
+AC_MSG_RESULT(no)
+])
+
+if test $new_alsa = no; then
+  AC_MSG_CHECKING(Checking for old ALSA API)
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+  #define ALSA_PCM_OLD_HW_PARAMS_API
+  #include <alsa/asoundlib.h>
+  ]], [[
+  static snd_pcm_hw_params_t *hwparams;
+  static snd_pcm_uframes_t chunk;
+  chunk = snd_pcm_hw_params_get_buffer_size (hwparams);
+  ]])],[
+  AC_MSG_RESULT(yes),
+  AC_DEFINE(ALSA_PCM_OLD_HW_PARAMS_API,1,[Old ALSA API without pointers])
+  ],[
+  AC_MSG_RESULT(no)
+  ])
+fi
  AC_CHECK_LIB(asound,snd_pcm_open)
 fi
 
 if test "$hplay" = oss; then
  AC_CHECK_HEADERS(sys/soundcard.h machine/soundcard.h,break,hplay=dummy)
  if test -c /dev/dspW ; then
-  AC_DEFINE(HAVE_DEV_DSPW)
+  AC_DEFINE(HAVE_DEV_DSPW,1,[Found /dev/dspW])
  fi
  if test -c /dev/audio ; then
-  AC_DEFINE(HAVE_DEV_AUDIO)
+  AC_DEFINE(HAVE_DEV_AUDIO,1,[Found /dev/audio])
  fi
  if test -c /dev/dsp ; then
-  AC_DEFINE(HAVE_DEV_DSP)
+  AC_DEFINE(HAVE_DEV_DSP,1,[Found /dev/dsp])
  fi
  if test -c /dev/sbdsp ; then
-  AC_DEFINE(HAVE_DEV_SBDSP)
+  AC_DEFINE(HAVE_DEV_SBDSP,1,[Found /dev/sbdsp])
  fi
 fi
+
+
+
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -86,10 +122,10 @@ AC_TYPE_OFF_T
 
 dnl See if float can be used in protos followed by K&R definition
 AC_MSG_CHECKING(if we can use float in prototypes)
-AC_TRY_COMPILE([#include "$srcdir/proto.h"],[
-} int func PROTO((float a));
-int func(a) float a; { ],AC_MSG_RESULT(yes),[
-AC_DEFINE(NOPROTOFLOAT)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[
+} int func (float a);
+int func(a) float a; { ]])],[AC_MSG_RESULT(yes)],[
+AC_DEFINE(NOPROTOFLOAT,1,[No float prototype])
 AC_MSG_RESULT(no)
 ])
 
@@ -102,14 +138,6 @@ if test -d $prefix/lib; then
  LIBS="-L$prefix/lib $LIBS"
  AC_MSG_WARN(Using -L$prefix/lib)
 fi
-
-AC_ARG_WITH(gdbm,[  --with-gdbm[=<path>]    Uninstalled GNU gdbm source directory],[
-if test "$withval" != "" && test -d "$withval" ; then
- CPPFLAGS="-I$withval $CPPFLAGS"
- LIBS="-L$withval $LIBS"
-else
- echo "--with-gdbm=$withval"
-fi])
 
 AC_ARG_WITH(aDict,[  --with-aDict[=<path>]   American Dictionary],[
 if test "$withval" != "" && test -r "$withval" ; then
@@ -130,6 +158,49 @@ if test "$withval" != "" && test -r "$withval" ; then
 else
  AC_MSG_WARN(Cannot read $withval for British Dictionary)
 fi])
+
+AS_MESSAGE([checking for database libraries...])
+
+AC_ARG_WITH(db,[  -with-db[=<path]    Try and use Berkeley DB],[
+if test "$withval" != "" && test -d "$withval" ; then
+ CPPFLAGS="-I$withval $CPPFLAGS"
+ LIBS="-L$withval $LIBS"
+fi])
+
+if test "$with_db" != "no" ; then
+  AC_CHECK_LIB(db,db_create)
+  if test "$ac_cv_lib_db_db_create" = yes ; then
+   AC_CHECK_HEADERS(db.h,db_h=yes)
+  fi
+  if test "$db_h" = yes ; then
+   PROGS="$PROGS mkdictdb dlookup"
+   AC_MSG_WARN(Using db)
+  fi
+fi
+
+AC_ARG_WITH(gdbm,[  --with-gdbm[=<path>]    Try and use GNU gdbm (given source directory)],[
+if test "$withval" != "" && test -d "$withval" ; then
+ CPPFLAGS="-I$withval $CPPFLAGS"
+ LIBS="-L$withval $LIBS"
+else
+ echo "--with-gdbm=$withval"
+fi])
+
+if test "$with_gdbm" != "no" ; then
+ AC_CHECK_HEADERS(gdbm.h,gdbm_h=yes)
+ if test "$gdbm_h" = yes; then
+   AC_CHECK_LIB(gdbm,gdbm_open)
+   if test "$ac_cv_lib_gdbm_gdbm_open" = yes ; then
+    AC_MSG_WARN(Using gdbm)
+    PROGS="$PROGS mkdictdb dlookup"
+   fi
+ fi
+fi
+
+if test "$db_h$gdbm_h" = ""; then
+  AC_MSG_WARN(No db.h and no gdbm.h)
+  BUILD=""
+fi
 
 AC_PATH_PROG(PERL,perl)
 if test "perl" != ""; then
@@ -160,25 +231,6 @@ CPPFLAGS="-I. -I$srcdir $CPPFLAGS"
 AC_CHECK_LIB(M,atan)
 AC_CHECK_LIB(m,atan)
 
-AS_MESSAGE([checking for database libraries...])
-AC_CHECK_LIB(gdbm,gdbm_open)
-AC_CHECK_LIB(db,db_open)
-
-AC_CHECK_HEADERS(db.h)
-
-if test "$ac_cv_lib_db_db_open" = yes ; then
- PROGS="$PROGS mkdictdb dlookup"
- AC_MSG_WARN(Using db)
-else
- if test "$ac_cv_lib_gdbm_gdbm_open" = yes ; then
-  AC_MSG_WARN(Using gdbm)
-  PROGS="$PROGS mkdictdb dlookup"
- else
-  AC_MSG_WARN(No database)
-  BUILD=""
- fi
-fi
-
 
 if test "$hplay" = sgi; then
 AC_CHECK_LIB(audio,ALopenport)
@@ -195,12 +247,12 @@ AC_CHECK_LIB(socket,socket,XLIBS="-lsocket $XLIBS")
 AC_CHECK_LIB(nsl,inet_addr,XLIBS="-lnsl $XLIBS")
 AC_CHECK_LIB(X11,XauReadAuth,[
 XLIBS="$X_LIBS -lX11 $XLIBS"
-AC_DEFINE(HAVE_LIBX11)
+AC_DEFINE(HAVE_LIBX11,1,[Found -lX11])
 ],,$X_LIBS $XLIBS $LIBS)
 
 AC_CHECK_LIB(Xt,XtAppAddInput,[
 XLIBS="$X_LIBS -lXt $XLIBS"
-AC_DEFINE(HAVE_LIBXT)
+AC_DEFINE(HAVE_LIBXT,1,[Found -lXt])
 ],,$X_LIBS $XLIBS $LIBS)
 
 dnl See if we can find nas audio library
@@ -208,7 +260,7 @@ AC_CHECK_HEADERS(audio/audiolib.h)
 if test "$ac_cv_header_audio_audiolib_h" = yes ; then
   AC_CHECK_LIB(audio,AuOpenServer,[
   XLIBS="$XLIBS -laudio"
-  AC_DEFINE(HAVE_NAS)
+  AC_DEFINE(HAVE_NAS,1,[Found NAS -laudio])
   ],,$XLIBS $LIBS)
   if test "$ac_cv_lib_audio_AuOpenServer" = yes; then
    if test "$hplay" = dummy; then
@@ -223,7 +275,7 @@ fi
 
 dnl Check for obscure but speed-enhancing sun hack
 if test "$hplay" = sun; then
-AC_TRY_LINK(,nonstandard_arithmetic();,AC_DEFINE(HAVE_NONSTDARITH))
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[nonstandard_arithmetic();]])],[AC_DEFINE(HAVE_NONSTDARITH,1,[Sun hack])],[])
 fi
 
 dnl Checks for library functions.

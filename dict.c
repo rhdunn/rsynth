@@ -1,6 +1,6 @@
 /*
     Copyright (c) 1994,2001-2003 Nick Ing-Simmons. All rights reserved.
- 
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
@@ -29,6 +29,10 @@
 #include "useconfig.h"
 #include "dbif.h"
 
+#ifndef DEFAULT_DICT
+#define DEFAULT_DICT "b"
+#endif
+char *dict_path = DEFAULT_DICT;
 
 #ifdef DB_HANDLE
 
@@ -85,10 +89,6 @@ choose_dialect(void)
     }
 }
 
-#ifndef DEFAULT_DICT
-#define DEFAULT_DICT "b"
-#endif
-char *dict_path = DEFAULT_DICT;
 
 int
 dict_init(const char *dictname)

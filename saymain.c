@@ -178,8 +178,10 @@ main(int argc, char *argv[])
 		   "G", "%ld", &gain, "Overall Gain",
 		   NULL);
 
-    argc = file_init(argc, argv);
+    /* audio_init sets the rate */
     argc = audio_init(argc, argv);
+    /* so must come before file init which writes rate to header */
+    argc = file_init(argc, argv);
 
 
     if (help_only) {

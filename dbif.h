@@ -1,4 +1,5 @@
-#ifdef HAVE_LIBDB 
+#ifdef HAVE_DB_H
+#include <fcntl.h>
 #include <db.h>
 
 #define DB_HANDLE DB *
@@ -13,21 +14,24 @@
        d.size = (len); \
      } while (0)
 
-#define DB_OPEN_WRITE(db, path)                                      \
- do {                                                                \
-   DB_INFO info;                                                     \
-   memset(&info,0,sizeof(info));                                     \
-   info.flags = DB_DUP;                                              \
-   db_open(path, DB_HASH, DB_CREATE, 0644, NULL, &info, &db);       \
-  } while (0) 
-              
-#define DB_OPEN_READ(db, path)                                       \
- do {                                                                \
-   DB_INFO info;                                                     \
-  memset(&info,0,sizeof(info));                                      \
-  db_open(path, DB_UNKNOWN, DB_RDONLY, 0644, NULL, &info, &db);      \
- } while (0) 
-              
+#define DB_OPEN_WRITE(db, path)                                        \
+ do {                                                                  \
+     int status = db_create(&db,NULL,0);                               \
+     if (!status)                                                      \
+      status = (db->open)(db, NULL, path, NULL, DB_HASH, DB_CREATE, 0644);  \
+     if (status)                                                       \
+      db = NULL;                                                       \
+  } while (0)
+
+#define DB_OPEN_READ(db, path)                                         \
+ do {                                                                  \
+     int status = db_create(&db,NULL,0);                               \
+     if (!status)                                                      \
+      status = (db->open)(db, NULL, path, NULL, DB_HASH, DB_RDONLY, 0644);  \
+     if (status)                                                       \
+      db = NULL;                                                       \
+ } while (0)
+
 #define DB_STORE(db, key, data) \
  db->put(db, NULL, &key, &data, 0)
 
@@ -37,9 +41,9 @@
      data.data  = NULL;                     \
      db->get(db, NULL, &key, &data, 0);     \
     } while (0)
-    
+
 #define DB_CLOSE(db) db->close(db,0)
-                    
+
 
 #else  /* LIBDB */
 
@@ -51,9 +55,7 @@
 #ifndef GDBM_FAST
 /* Tolerate older versions of gdbm ... */
 #define GDBM_FAST 0
-#endif                      
-
-
+#endif
 
 #define DB_HANDLE GDBM_FILE
 #define DATUM datum

@@ -1,32 +1,7 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
-/* Define if prototype cannot use a type of float if followed by K&R defn. */
-#undef NOPROTOFLOAT
 
-/* turn off strict IEEE compliance in favour of speed */
-#undef HAVE_NONSTDARITH
-       
-/* Define if we can find -lX11 */
-#undef HAVE_LIBX11
-       
-/* Define if we can find nas -lXt */
-#undef HAVE_LIBXT
-       
-/* Define if we can find nas -laudio */
-#undef HAVE_NAS
-       
-/* Define if we can find /dev/dsp - linux/FreeBSD */
-#undef HAVE_DEV_DSP
-
-/* Define if we can find /dev/sbdsp - linux (older drivers) */
-#undef HAVE_DEV_SBDSP
-
-/* Define if we can find /dev/audio - linux (newer drivers) */
-#undef HAVE_DEV_AUDIO
-
-/* Define if we can find /dev/dspW  - linux (newer drivers) */
-#undef HAVE_DEV_DSPW
-
-
+/* Old ALSA API without pointers */
+#undef ALSA_PCM_OLD_HW_PARAMS_API
 
 /* Define to 1 if you have the <alsa/asoundlib.h> header file. */
 #undef HAVE_ALSA_ASOUNDLIB_H
@@ -40,11 +15,26 @@
 /* Define to 1 if you have the <db.h> header file. */
 #undef HAVE_DB_H
 
+/* Found /dev/audio */
+#undef HAVE_DEV_AUDIO
+
+/* Found /dev/dsp */
+#undef HAVE_DEV_DSP
+
+/* Found /dev/dspW */
+#undef HAVE_DEV_DSPW
+
+/* Found /dev/sbdsp */
+#undef HAVE_DEV_SBDSP
+
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
 
 /* Define to 1 if you have the `ftruncate' function. */
 #undef HAVE_FTRUNCATE
+
+/* Define to 1 if you have the <gdbm.h> header file. */
+#undef HAVE_GDBM_H
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -67,6 +57,12 @@
 /* Define to 1 if you have the `m' library (-lm). */
 #undef HAVE_LIBM
 
+/* Found -lX11 */
+#undef HAVE_LIBX11
+
+/* Found -lXt */
+#undef HAVE_LIBXT
+
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
@@ -81,6 +77,12 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
+
+/* Found NAS -laudio */
+#undef HAVE_NAS
+
+/* Sun hack */
+#undef HAVE_NONSTDARITH
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
@@ -130,6 +132,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* No float prototype */
+#undef NOPROTOFLOAT
+
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
@@ -147,6 +152,9 @@
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #undef RETSIGTYPE
+
+/* New ALSA API passes pointers to parms */
+#undef RSYNTH_ALSA_PCM_POINTER_PARAMS_API
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
