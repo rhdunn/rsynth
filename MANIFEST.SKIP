@@ -2,7 +2,7 @@
 \.[oa]$
 \.d$
 \.(bak|bck|save|old|db|plot|dat|bs|au)$
-\b(RCS|comments|Solaris|makefiles|SunOS.*)/
+\b(RCS|CVS|comments|Solaris|makefiles|SunOS.*)/
 \b[ab]Dict$
 \b(align|710)\b
 text710\.
