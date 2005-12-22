@@ -1,6 +1,6 @@
 /*
     Copyright (c) 1994,2001-2002 Nick Ing-Simmons. All rights reserved.
- 
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
@@ -18,9 +18,9 @@
 
 */
 #include <config.h>
-/* $Id: //depot/rsynth/getarg.c#9 $
+/* $Id: //depot/rsynth/getarg.c#10 $
  */
-char *getarg_id = "$Id: //depot/rsynth/getarg.c#9 $";
+char *getarg_id = "$Id: //depot/rsynth/getarg.c#10 $";
 #if defined(USE_PROTOTYPES) ? USE_PROTOTYPES : defined(__STDC__)
 #include <stdarg.h>
 #else
@@ -85,7 +85,7 @@ va_dcl
          char *fmt = va_arg(ap, char *);
          void *var = va_arg(ap, void *);
          char *desc = va_arg(ap, char *);
-         if (!strcmp(s,"-help"))
+         if (!strcmp(s,"-help") || !strcmp(s,"help") || !strcmp(s,"h"))
           {
            help_only = 1;
            if (!done_module++)

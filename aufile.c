@@ -26,6 +26,17 @@
 #include "hplay.h"
 #include "aufile.h"
 
+#if defined(HAVE_SNDFILE_H) && defined(HAVE_LIBSNDFILE)
+#define USE_SNDFILE 1
+#include <sndfile.h>
+static SNDFILE *sndfile = 0;
+SF_INFO sf_info;
+static char *format;
+#else
+static unsigned au_encoding = SUN_ULAW;
+static unsigned au_size = 0;
+#endif
+
 #ifndef HAVE_FTRUNCATE
 #ifdef HAVE_CHSIZE
 #define ftruncate(fd,size) chsize(fd,size)
@@ -47,11 +58,10 @@ file_term_p  file_term  = NULL;
 
 static char *linear_file;
 static char *au_file;
+
 static int au_fd = -1;            /* file descriptor for .au ulaw file */
 static int linear_fd = -1;
 
-static unsigned au_encoding = SUN_ULAW;
-static unsigned au_size = 0;
 
 static void wblong(int fd, unsigned long x);
 static void
@@ -96,6 +106,13 @@ aufile_write(int n, short int *data)
     }
    if (au_fd >= 0)
     {
+#ifdef USE_SNDFILE
+     sf_count_t  count = sf_write_short(sndfile, data, n);
+     if (count != n)
+      {
+       fprintf(stderr,"%s:%s",au_file,sf_strerror(sndfile));
+      }
+#else
      if (au_encoding == SUN_LIN_16)
       {
        unsigned size = n * sizeof(short);
@@ -146,6 +163,7 @@ aufile_write(int n, short int *data)
       {
        abort();
       }
+#endif
     }
   }
 }
@@ -158,6 +176,10 @@ aufile_term(void)
  /* Finish ulaw file */
  if (au_fd >= 0)
   {
+#ifdef USE_SNDFILE
+   sf_close(sndfile);
+   sndfile = 0;
+#else
    off_t here = lseek(au_fd, 0L, SEEK_CUR);
    if (here >= 0)
     {
@@ -171,6 +193,7 @@ aufile_term(void)
     }
    if (au_fd != 1)
     close(au_fd);
+#endif
    au_fd = -1;
   }
  /* Finish linear file */
@@ -189,7 +212,10 @@ file_init(int argc, char **argv)
 {
  argc = getargs("File output", argc, argv,
                 "l", "", &linear_file, "Raw 16-bit linear pathname",
-                "o", "", &au_file,     "Sun/Next audio file name",
+                "o", "", &au_file,     "Output audio file name",
+#ifdef USE_SNDFILE
+                "t", "", &format,      "Type (format) of file (defaults to file extension)",
+#endif
                 NULL);
  if (help_only)
   return argc;
@@ -208,12 +234,52 @@ file_init(int argc, char **argv)
     }
    if (au_fd >= 0)
     {
+#ifdef USE_SNDFILE
+     if (!format)
+      {
+       format = strrchr(au_file,'.');
+       if (format) format++;
+      }
+     if (format)
+      {
+       if (strcmp(format,"wav") == 0 || strcmp(format,"WAV") == 0)
+        {
+         sf_info.format = SF_FORMAT_WAV;
+        }
+       else if (strncmp(format,"aif",3) == 0)
+        {
+         sf_info.format = SF_FORMAT_AIFF;
+        }
+       else if (strcmp(format,"au") == 0 || strcmp(format,"snd") == 0)
+        {
+         sf_info.format = SF_FORMAT_AU;
+        }
+      }
+     else
+      {
+       sf_info.format = SF_FORMAT_AU;
+      }
+     sf_info.format |= SF_FORMAT_PCM_16;
+     sf_info.channels = 1;
+     sf_info.samplerate = samp_rate;
+     if (sf_format_check(&sf_info))
+      {
+       sndfile = sf_open_fd(au_fd, SFM_WRITE, &sf_info, au_fd != 1);
+      }
+     if (!sndfile)
+      {
+       fprintf(stderr,"Cannot open %s as %s\n",au_file,format);
+       close(au_fd);
+       au_fd = -1;
+      }
+#else
      if (samp_rate > 8000)
       au_encoding = SUN_LIN_16;
      else
       au_encoding = SUN_ULAW;
      au_header(au_fd, au_encoding, samp_rate, SUN_UNSPEC, "");
      au_size = 0;
+#endif
     }
   }
 

@@ -1,3 +1,476 @@
+Change 3438 on 2004/10/16 by nick@llama
+
+	New a~ parameters from
+	Franz-Albert VAN DEN BUSSCHE <fa.vdb@free.fr>
+
+Change 3408 on 2004/07/26 by nick@llama
+
+	Allow upper case. Significantly slower though.
+
+Change 3407 on 2004/07/20 by nick@llama
+
+	Avoid hogging all memory
+	Avoid clean deleting everything if arg forgotten
+
+Change 3406 on 2004/07/20 by nick@llama
+
+	Switch phonetic side to use /i:/ for long monophongs.
+	(Element side still needs updating). This allows : marks
+	on vowels of other languages with less impact.
+	EnSane.pm is now UTF-8.
+
+Change 3405 on 2004/07/19 by nick@dromedary
+
+	Add sampa refs
+
+Change 3404 on 2004/07/17 by nick@llama
+
+	MANIFEST tidying for CVS stuff
+
+Change 3403 on 2004/07/17 by nick@llama
+
+	Update nasalized vowels from base vowel now that
+	latter have been tidied.
+
+Change 3396 on 2004/07/11 by nick@llama
+
+	Re-arrange vowels according to theory.
+	Possibly /V/ now sounds odd for RP, otherwise largely
+	harmless to RP as there are 'dip' targets for /a/ etc.
+	Now nasals and rhotic versions need work to match.
+
+Change 3395 on 2004/07/11 by nick@llama
+
+	Feature re-ordering
+
+Change 3394 on 2004/07/11 by nick@llama
+
+	Add display of f2/f3 space
+
+Change 3393 on 2004/07/11 by nick@llama
+
+	Re-instate 'lax' as a vowel feature code
+	Give it a height in Elements.pm
+	Have Elements.pm (re)generate phfeat.h
+
+Change 3392 on 2004/07/11 by nick@llama
+
+	Move dynamic element /#/ (to coin a code) so we can hear
+	what different points sound like.
+
+Change 3391 on 2004/07/11 by nick@llama
+
+	Move /}/ f2 back a bit, add element to use as dynamic one.
+
+Change 3390 on 2004/07/10 by nick@llama
+
+	Sound with vowel diagram (Read only)
+
+Change 3389 on 2004/07/10 by nick@llama
+
+	Add perl API to elements layer of synth
+	 - a bit of a kludge for now.
+
+Change 3388 on 2004/07/10 by nick@llama
+
+	Move primary phtoelm.def to Rsynth subdir
+
+Change 3387 on 2004/07/04 by nick@llama
+
+	Prepare for theory manipulation of f1/f2/f3 of vowels.
+	In particular save Elements.hist with old values
+
+Change 3386 on 2004/07/04 by nick@llama
+
+	Whoops - lost contents
+
+Change 3385 on 2004/07/04 by nick@llama
+
+	Order vowel features
+
+Change 3384 on 2004/07/04 by nick@llama
+
+	UTF-8 for most files.
+
+Change 3375 on 2004/06/30 by nick@llama
+
+	Re-instate ability to prune rules in multi-pass
+	train.
+
+Change 3374 on 2004/06/29 by nick@llama
+
+	Sanitize Elements.def a bit
+	 - Collapse two virtually identical versions of /a/
+	 - Only generate nasals from non-diphthong vowels
+	 - name elements in SAMPA while messing with them
+	Add elmdgm to show vowels + /w/ and /j/ in IPA font.
+	 - suggests some of vowels are off track, or f1/f2 theory
+	   is wrong.
+
+Change 3370 on 2004/06/28 by nick@dromedary
+
+	Add nasals - suspect lengths are wrong
+
+Change 3369 on 2004/06/28 by nick@dromedary
+
+	Unicode slot of Elm_t as uchar * in UTF-8 to
+	allow for multichar like /i:/ or /a~/
+
+Change 3368 on 2004/06/26 by nick@llama
+
+	Reinstate ability to build hybrid lookup
+
+Change 3364 on 2004/06/24 by nick@llama
+
+	Tolerate american phones better.
+
+Change 3363 on 2004/06/24 by nick@llama
+
+	@` needs to come before @ in ph_vowel
+
+Change 3362 on 2004/06/24 by nick@llama
+
+	More special cases to try and get vowels on right
+	graphemes.
+
+Change 3361 on 2004/06/24 by nick@llama
+
+	Tweak probability reporting
+
+Change 3360 on 2004/06/23 by nick@llama
+
+	Flow now using trial
+
+Change 3359 on 2004/06/23 by nick@llama
+
+	Fix -passes code again. Sort lp table.
+
+Change 3358 on 2004/06/23 by nick@llama
+
+	Tinker with r and wh rules for American dictionary
+
+Change 3357 on 2004/06/23 by nick@llama
+
+	Use EnSane module in old guess code
+
+Change 3356 on 2004/06/22 by nick@llama
+
+	More sanity checks and make them a module.
+
+Change 3355 on 2004/06/22 by nick@llama
+
+	More errors in CUVOALD sources
+
+Change 3354 on 2004/06/22 by nick@llama
+
+	Remove dipthongs as phoenemes let phone concat
+	rediscover them.
+
+Change 3353 on 2004/06/22 by nick@llama
+
+	Some split minimization
+
+Change 3352 on 2004/06/21 by nick@llama
+
+	More memory reduction
+	Tidy the "sane" rules a bit".
+
+Change 3351 on 2004/06/20 by nick@llama
+
+	Try and reduce memory.
+
+Change 3350 on 2004/06/20 by nick@llama
+
+	Fix split case in new code.
+	Allow silent vowels after /@l/ etc. (may have been there before).
+
+Change 3349 on 2004/06/20 by nick@llama
+
+	New structured guess and call it train
+
+Change 3348 on 2004/06/20 by nick@llama
+
+	C output from id3 (incomplete)
+
+Change 3347 on 2004/06/20 by nick@llama
+
+	Amount of context a compile time option.
+
+Change 3346 on 2004/06/19 by nick@llama
+
+	Clean up (X-)SAMPA:
+	 - add some more vowels
+	 - use quotemeta in regular expersssions
+	 - remove CUVOALD markup of linking-R
+	 - remove 'R' from arpabet ER
+
+Change 3345 on 2004/06/19 by nick@llama
+
+	Cleanup on re-build
+	Need .std from 1st pass
+
+Change 3344 on 2004/06/19 by nick@llama
+
+	-passes as command line option (rather than -loop)
+
+Change 3343 on 2004/06/19 by nick@llama
+
+	Re-order sane() alphapetically
+
+Change 3342 on 2004/06/19 by nick@llama
+
+	Save correct window (this is entropy change)
+
+Change 3341 on 2004/06/19 by nick@llama
+
+	More tidying, avoid log(2) and re-calc of ph entropy.
+
+Change 3340 on 2004/06/19 by nick@llama
+
+	Re-structure so we can give explanatory comments.
+
+Change 3339 on 2004/06/18 by nick@dromedary
+
+	Make guess behave like new style try so we can compare
+	old style NRL code to new style trained rules.
+
+Change 3338 on 2004/06/17 by nick@llama
+
+	Add/update ancillary scripts
+
+Change 3337 on 2004/06/15 by nick@llama
+
+	sin problem was driving error in try.
+	Small now 93% correct.
+
+Change 3336 on 2004/06/15 by nick@llama
+
+	Avoid outputing vectors from unproven parts of recursion.
+	Repeat vectors for number of words to change weightings.
+	Both versions of id3 giving errors which are odd e.g.
+	'sin' 'sIn' is covered by vector at all times but is output as sn?
+
+Change 3335 on 2004/06/15 by nick@llama
+
+	remove() wasn't removing enough. But nested hashes
+	are expensive.
+
+Change 3334 on 2004/06/15 by nick@llama
+
+	Correcting semantics of '-' '_' '^' '$' and '' in ch/ph
+	Gets small to 88.9%.
+	Good as avoids pain of re-adding more R context
+
+Change 3333 on 2004/06/15 by nick@llama
+
+	Save version with ^$
+
+Change 3332 on 2004/06/15 by nick@llama
+
+	New style working again with more left depth
+	Small 73.7%. fixed takes too much memoory...
+
+Change 3331 on 2004/06/14 by nick@llama
+
+	New data structures ready.
+
+Change 3330 on 2004/06/14 by nick@llama
+
+	Intermediate point with vectors as data
+
+Change 3329 on 2004/06/14 by nick@llama
+
+	Use perltidy on id3
+	Also fix quoting of literals - which now makes perl version BETTER
+	than C version (still a mystery why they differ, but have a clue now).
+	So now small case is 77.6% correct :-)
+
+Change 3328 on 2004/06/13 by nick@llama
+
+	More comments in perl-generated tree
+	Still Not clear why it makes more errors.
+
+Change 3327 on 2004/06/13 by nick@llama
+
+	Try and understand id3
+	 - id3.c simplify to perl only style and some tidyup
+	   still only 74% correct on small.dat
+	 - Fish perl version of id3 out of archive and -w use strict
+	   works again (fast enough on 21st Century machine)
+	 - Produces radically differrt decision tree given same data
+	   as C version which only gets 54% correct.
+
+Change 3326 on 2004/06/13 by nick@llama
+
+	Loose the silly macros
+
+Change 3325 on 2004/06/13 by nick@llama
+
+	Build vectors for id3 trial
+
+Change 3324 on 2004/06/13 by nick@llama
+
+	indent and reduce mingain
+
+Change 3323 on 2004/06/12 by nick@llama
+
+	Fix re-use of entry for ranking on -loop pass
+
+Change 3322 on 2004/06/12 by nick@llama
+
+	Use constant for array indices
+
+Change 3321 on 2004/06/12 by nick@llama
+
+	Tidy options()
+
+Change 3320 on 2004/06/12 by nick@llama
+
+	Save left and right as both char and phone
+
+Change 3319 on 2004/06/11 by nick@llama
+
+	Prune some of the digraphs
+
+Change 3318 on 2004/06/11 by nick@llama
+
+	Loop using @dict array rather than file
+
+Change 3317 on 2004/06/11 by nick@llama
+
+	Regular expressions for phoneme and grapheme and
+	vowel sub-classes of those.
+	Still being too greedy on vowel clusters
+
+Change 3316 on 2004/06/10 by nick@llama
+
+	Tinkering with seed sane() code.
+
+Change 3315 on 2004/06/10 by nick@llama
+
+	Write word list and sane lines.
+
+Change 3314 on 2004/06/09 by nick@llama
+
+	Some command line options to try things
+
+Change 3313 on 2004/06/08 by nick@llama
+
+	Scheme to back-convert ARPAbet of CMU/BEEP to SAMPA
+	Shows both dictionaries are full junk.
+	 - CMU is better of two. Its main snag are lots of Polish/Chinese
+	   proper names, and more (un-tagged of course) abbreviations.
+	   Also a whole raft of McWhatever names.
+	 - BEEP however has lots of "just wrong" entries and
+	   some correct words pronounciations associated with either
+	   unrelated word or it misspelt orthographicaly.
+
+Change 3312 on 2004/06/08 by nick@llama
+
+	Typo E21 for EH2
+
+Change 3311 on 2004/06/08 by nick@llama
+
+	Less conflicts in CMU vs CUVOALD trained rules if
+	ARPAbet AH is SAMPA @
+
+Change 3310 on 2004/06/08 by nick@llama
+
+	Cleanup command line switches for explain foreign
+
+Change 3309 on 2004/06/08 by nick@llama
+
+	More checking
+
+Change 3308 on 2004/06/07 by nick@llama
+
+	Read OALD directly.
+
+Change 3307 on 2004/06/06 by nick@llama
+
+	Config/MANIFEST tinkering
+
+Change 3306 on 2004/06/06 by nick@llama
+
+	New rule building scheme
+
+Change 3297 on 2004/05/29 by nick@llama
+
+	Modernize a bit
+	 - new autoconf
+	 - re-instate -ldb support
+	 - force locale during mkdictdb runs (suspect)
+
+Change 3296 on 2004/05/29 by nick@llama
+
+	New autoconf stuff to test for new ALSA
+
+Change 3282 on 2004/04/18 by nick@llama
+
+	SAMPA-ize OALD phones
+
+Change 3145 on 2004/02/17 by nick@nickwork
+
+	Integrate RedHat stuff
+
+Change 3143 on 2004/02/14 by nick@dromedary
+
+	Must set rate before doing .au file
+
+Change 3126 on 2004/01/15 by nick@llama
+
+	Skip CVS sub-dirs in MANIFEST
+
+Change 3112 on 2004/01/04 by nick@llama
+
+	More README corrections
+
+Change 3110 on 2004/01/04 by nick@llama
+
+	Purge obsolete READMEs, update _the_ README
+
+Change 3109 on 2004/01/04 by nick@llama
+
+	Import beep-1.0.tar.gz from
+	ftp://svr-ftp.eng.cam.ac.uk/pub/comp.speech/dictionaries
+
+Change 3108 on 2004/01/04 by nick@llama
+
+	Import cmudict.0.6 from ftp://ftp.cs.cmu.edu/project/fgdata/dict
+
+Change 3104 on 2004/01/04 by nick@dromedary
+
+	ALSA driver - Warn if sample rate isn't what we asked for,
+	use -A to select a device other than "default"
+
+Change 3103 on 2004/01/04 by nick@dromedary
+
+	Tidy command-line args table
+
+Change 3102 on 2004/01/04 by nick@dromedary
+
+	Cleanup whitespace and add 2004 to copyright years.
+
+Change 3101 on 2004/01/04 by nick@dromedary
+
+	PREREQ_FATAL is a boolean
+
+Change 3096 on 2004/01/02 by nick@llama
+
+	More MANIFEST cleanup
+
+Change 3095 on 2004/01/02 by nick@llama
+
+	MANIFEST and distribution cleanup
+
+Change 3094 on 2003/12/31 by nick@llama
+
+	Add ALSA driver
+
+Change 2931 on 2003/10/09 by nick@llama
+
+	Typo in configure.in
+
 Change 2707 on 2003/07/06 by nick@llama
 
 	SuSE 8.2 and gcc-3.* support

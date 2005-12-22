@@ -236,6 +236,14 @@ if test "$hplay" = sgi; then
 AC_CHECK_LIB(audio,ALopenport)
 fi
 
+dnl Check for sndfile header and library
+AC_CHECK_HEADERS(sndfile.h,sndfile_h=yes)
+if test "$sndfile_h" = yes; then
+   AC_CHECK_LIB(sndfile,sf_open)
+   if test "$ac_cv_lib_sndfile_sfopen" = yes ; then
+    AC_MSG_WARN(Found libsndfile)
+   fi
+fi
 
 dnl Checking for X11
 AC_PATH_XTRA

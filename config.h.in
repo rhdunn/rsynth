@@ -57,6 +57,9 @@
 /* Define to 1 if you have the `m' library (-lm). */
 #undef HAVE_LIBM
 
+/* Define to 1 if you have the `sndfile' library (-lsndfile). */
+#undef HAVE_LIBSNDFILE
+
 /* Found -lX11 */
 #undef HAVE_LIBX11
 
@@ -83,6 +86,9 @@
 
 /* Sun hack */
 #undef HAVE_NONSTDARITH
+
+/* Define to 1 if you have the <sndfile.h> header file. */
+#undef HAVE_SNDFILE_H
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
