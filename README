@@ -56,6 +56,14 @@ which are still there:
 *  SGI - this built on "mips-sgi-irix4.0.5H"
 *  HPUX
 
+configure now looks for libsndfile and if found uses it to write
+audio to a file. So package can now write .wav files.
+libsndfile is often already included in linux distributions
+(although you may need to install the "devel" package to get headers).
+
+If not it can be found here:
+
+    http://www.mega-nerd.com/libsndfile/
 
 Dictionaries:
 
@@ -114,8 +122,13 @@ these issues see PORTING.
 Use say --help to get a list of command line options.
 
 There is an experimental hook to allow you to "say" .pho files intended
-for MBrola diphone synth. This is used to provide a hacky back-end
+for MBrola diphone synth.
+
+http://tcts.fpms.ac.be/synthesis/mbrola.html
+
+This is used to provide a hacky back-end
 for Festival.
+http://www.cstr.ed.ac.uk/projects/festival/
 
 Projects:
   Plan is to pre-analyze the dictionaries and produce better letter
