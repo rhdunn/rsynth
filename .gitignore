@@ -1,2 +1,15 @@
+*.o
+
+config.log
+config.status
 config.guess
 config.sub
+config.h
+
+hplay.c
+Makefile
+
+6,
+
+Rsynth/librsynth.a
+say
