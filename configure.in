@@ -202,12 +202,6 @@ if test "$db_h$gdbm_h" = ""; then
   BUILD=""
 fi
 
-AC_PATH_PROG(PERL,perl)
-if test "perl" != ""; then
-  BUILD="$BUILD perlstuff"
-  EXTRA_INST="$EXTRA install_perl"
-fi
-
 AC_ARG_WITH(festival,[  --with-festival[=<path>]   Festival Directory],[
 if test "$withval" != "" && test -d "$withval/lib/voices" ; then
  FESTIVAL="$withval"

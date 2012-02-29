@@ -5325,11 +5325,6 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-if test "perl" != ""; then
-  BUILD="$BUILD perlstuff"
-  EXTRA_INST="$EXTRA install_perl"
-fi
-
 
 # Check whether --with-festival or --without-festival was given.
 if test "${with_festival+set}" = set; then
