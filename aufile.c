@@ -26,6 +26,13 @@
 #include "hplay.h"
 #include "aufile.h"
 
+#define SUN_MAGIC 	0x2e736e64		/* Really '.snd' */
+#define SUN_HDRSIZE	24			/* Size of minimal header */
+#define SUN_UNSPEC	((unsigned)(~0))	/* Unspecified data size */
+#define SUN_ULAW	1			/* u-law encoding */
+#define SUN_LIN_8	2			/* Linear 8 bits */
+#define SUN_LIN_16	3			/* Linear 16 bits */
+
 #if defined(HAVE_SNDFILE_H) && defined(HAVE_LIBSNDFILE)
 #define USE_SNDFILE 1
 #include <sndfile.h>
@@ -45,13 +52,6 @@ static unsigned au_size = 0;
 #endif
 #endif
 static const short endian = 0x1234;
-
-#define SUN_MAGIC 	0x2e736e64		/* Really '.snd' */
-#define SUN_HDRSIZE	24			/* Size of minimal header */
-#define SUN_UNSPEC	((unsigned)(~0))	/* Unspecified data size */
-#define SUN_ULAW	1			/* u-law encoding */
-#define SUN_LIN_8	2			/* Linear 8 bits */
-#define SUN_LIN_16	3			/* Linear 16 bits */
 
 file_write_p file_write = NULL;
 file_term_p  file_term  = NULL;
