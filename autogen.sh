@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ln -sv /usr/share/automake/config.guess config.guess
-ln -sv /usr/share/automake/config.sub config.sub
+CONFIG_DIR=misc
+
+ln -sv /usr/share/${CONFIG_DIR}/config.guess config.guess
+ln -sv /usr/share/${CONFIG_DIR}/config.sub config.sub
 
 autoheader || exit 1
