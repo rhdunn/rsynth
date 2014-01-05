@@ -1,3 +1,5 @@
+.*.swp
+
 *.o
 
 autom4te.cache/
