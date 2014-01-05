@@ -1,10 +1,7 @@
-define([AC_CACHE_LOAD], )dnl
-define([AC_CACHE_SAVE], )dnl
-
-dnl Process this file with autoconf to produce a configure script.
-AC_REVISION($Revision: 1.4 $)
 AC_PREREQ(2.59)
-AC_INIT
+AC_INIT([RSynth], [2.1], [msclrhd@gmail.com], [rsynth], [https://github.com/rhdunn/rsynth])
+AM_INIT_AUTOMAKE()
+
 AC_CONFIG_SRCDIR([say.c])
 AC_CANONICAL_HOST
 AC_CONFIG_HEADER(config.h)

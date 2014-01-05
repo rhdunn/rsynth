@@ -2,6 +2,7 @@
 
 *.o
 
+aclocal.m4
 autom4te.cache/
 config.h.in~
 config.h.in
@@ -14,7 +15,18 @@ config.sub
 config.h
 
 hplay.c
+Makefile.in
 Makefile
+
+compile
+depcomp
+install-sh
+missing
+stamp-h1
+
+.deps/
 
 Rsynth/librsynth.a
 say
+dlookup
+mkdictdb
