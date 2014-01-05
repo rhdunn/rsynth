@@ -16,7 +16,5 @@ config.h
 hplay.c
 Makefile
 
-6,
-
 Rsynth/librsynth.a
 say
