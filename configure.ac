@@ -71,7 +71,7 @@ static snd_pcm_uframes_t chunk;
 snd_pcm_hw_params_get_buffer_size (hwparams,&chunk);
 ]])],[
 new_alsa=yes
-AC_MSG_RESULT(yes),
+AC_MSG_RESULT(yes)
 AC_DEFINE(RSYNTH_ALSA_PCM_POINTER_PARAMS_API,1,[New ALSA API passes pointers to parms])
 ],[
 new_alsa=no
@@ -88,13 +88,14 @@ if test $new_alsa = no; then
   static snd_pcm_uframes_t chunk;
   chunk = snd_pcm_hw_params_get_buffer_size (hwparams);
   ]])],[
-  AC_MSG_RESULT(yes),
+  AC_MSG_RESULT(yes)
   AC_DEFINE(ALSA_PCM_OLD_HW_PARAMS_API,1,[Old ALSA API without pointers])
   ],[
   AC_MSG_RESULT(no)
   ])
 fi
- AC_CHECK_LIB(asound,snd_pcm_open)
+
+AC_CHECK_LIB(asound,snd_pcm_open)
 fi
 
 if test "$hplay" = oss; then
