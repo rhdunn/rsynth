@@ -80,7 +80,7 @@ enter(char *p, ...)
 static void
 enter_phonemes(void)
 {
-#include "Rsynth/phtoelm.def"
+#include "phtoelm.def"
 }
 
 trie_ptr
